@@ -2,7 +2,9 @@ import {
   UPDATE_PRODUCTS,
   UPDATE_CATEGORIES,
   UPDATE_CURRENT_CATEGORY,
-} from "...utils/actions";
+} from "../utils/actions";
+
+import { reducer } from "../utils/reducers";
 
 const initialState = {
   products: [],
