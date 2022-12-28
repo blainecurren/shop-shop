@@ -1,24 +1,27 @@
-import React from 'react';
-import { useQuery } from '@apollo/client';
+import React, { useEffect } from "react";
+import { useQuery } from "@apollo/client";
 
-import ProductItem from '../ProductItem';
-import { QUERY_PRODUCTS } from '../../utils/queries';
-import spinner from '../../assets/spinner.gif';
+import ProductItem from "../ProductItem";
+import { QUERY_PRODUCTS } from "../../utils/queries";
+import spinner from "../../assets/spinner.gif";
+import { useStoreContext } from "../../utils/GlobalState";
+import { UPDATE_PRODUCTS } from "../../utils/actions";
 
 function ProductList({ currentCategory }) {
-  const { loading, data } = useQuery(QUERY_PRODUCTS);
+  const [state, dispatch] = useStoreContext();
 
-  const products = data?.products || [];
+  const { currentCategory } = state;
 
-  function filterProducts() {
-    if (!currentCategory) {
-      return products;
+  const { loading, data} = useQuery(QUERY_PRODUCTS);
+
+  useEffect(() => {
+    if (data) {
+      dispatch({
+        type: UPDATE_PRODUCTS,
+        products: data.products
+      });
     }
-
-    return products.filter(
-      (product) => product.category._id === currentCategory
-    );
-  }
+  }, [data, dispatch]);
 
   return (
     <div className="my-2">
