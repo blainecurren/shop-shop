@@ -13,6 +13,13 @@ function CategoryMenu({ setCategory }) {
   const { categories } = state;
   const { data: categoryData } = useQuery(QUERY_CATEGORIES);
 
+  const handleClick = (id) => {
+    dispatch({
+      type: UPDATE_CURRENT_CATEGORY,
+      currentCategory: id,
+    });
+  };
+
   useEffect(() => {
     if (categoryData) {
       dispatch({
@@ -21,7 +28,7 @@ function CategoryMenu({ setCategory }) {
       });
     }
   }, [categoryData, dispatch]);
-  
+
   return (
     <div>
       <h2>Choose a Category:</h2>
@@ -29,7 +36,7 @@ function CategoryMenu({ setCategory }) {
         <button
           key={item._id}
           onClick={() => {
-            setCategory(item._id);
+            handleClick(item._id);
           }}
         >
           {item.name}
